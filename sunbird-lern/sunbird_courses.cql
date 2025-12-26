@@ -1,7 +1,7 @@
 
-CREATE KEYSPACE sunbird_courses WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'}  AND durable_writes = true;
+CREATE KEYSPACE IF NOT EXISTS sunbird_courses WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'}  AND durable_writes = true;
 
-CREATE TYPE sunbird_courses.question (
+CREATE TYPE IF NOT EXISTS sunbird_courses.question (
     id text,
     assess_ts timestamp,
     max_score double,
@@ -14,7 +14,7 @@ CREATE TYPE sunbird_courses.question (
     duration decimal
 );
 
-CREATE TABLE sunbird_courses.content_consumption (
+CREATE TABLE IF NOT EXISTS sunbird_courses.content_consumption (
     userid text,
     contentid text,
     batchid text,
@@ -50,7 +50,7 @@ CREATE TABLE sunbird_courses.content_consumption (
     AND transactions = {'enabled': 'true'};
 CREATE INDEX inx_cc_status ON sunbird_courses.content_consumption (status);
 
-CREATE TABLE sunbird_courses.cassandra_migration_version (
+CREATE TABLE IF NOT EXISTS sunbird_courses.cassandra_migration_version (
     version text PRIMARY KEY,
     checksum int,
     description text,
@@ -78,7 +78,7 @@ CREATE TABLE sunbird_courses.cassandra_migration_version (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird_courses.user_activity_agg (
+CREATE TABLE IF NOT EXISTS sunbird_courses.user_activity_agg (
     activity_type text,
     activity_id text,
     user_id text,
@@ -105,7 +105,7 @@ CREATE TABLE sunbird_courses.user_activity_agg (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird_courses.report_user_enrolments (
+CREATE TABLE IF NOT EXISTS sunbird_courses.report_user_enrolments (
     batchid text,
     courseid text,
     userid text,
@@ -143,7 +143,7 @@ CREATE TABLE sunbird_courses.report_user_enrolments (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird_courses.assessment_aggregator (
+CREATE TABLE IF NOT EXISTS sunbird_courses.assessment_aggregator (
     course_id text,
     batch_id text,
     user_id text,
@@ -174,7 +174,7 @@ CREATE TABLE sunbird_courses.assessment_aggregator (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird_courses.course_batch (
+CREATE TABLE IF NOT EXISTS sunbird_courses.course_batch (
     courseid text,
     batchid text,
     cert_templates map<text, frozen<map<text, text>>>,
@@ -214,7 +214,7 @@ CREATE TABLE sunbird_courses.course_batch (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird_courses.cassandra_migration_version_counts (
+CREATE TABLE IF NOT EXISTS sunbird_courses.cassandra_migration_version_counts (
     name text PRIMARY KEY,
     count counter
 ) WITH bloom_filter_fp_chance = 0.01
@@ -233,7 +233,7 @@ CREATE TABLE sunbird_courses.cassandra_migration_version_counts (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird_courses.user_enrolments (
+CREATE TABLE IF NOT EXISTS sunbird_courses.user_enrolments (
     userid text,
     courseid text,
     batchid text,
@@ -271,7 +271,7 @@ CREATE TABLE sunbird_courses.user_enrolments (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird_courses.bulk_upload_process (
+CREATE TABLE IF NOT EXISTS sunbird_courses.bulk_upload_process (
     id text PRIMARY KEY,
     data text,
     failureresult text,
@@ -299,7 +299,7 @@ CREATE TABLE sunbird_courses.bulk_upload_process (
     AND transactions = {'enabled': 'true'};
 CREATE INDEX inx_bup_status ON sunbird_courses.bulk_upload_process (status);
 
-CREATE TABLE sunbird_courses.user_content_consumption (
+CREATE TABLE IF NOT EXISTS sunbird_courses.user_content_consumption (
     userid text,
     courseid text,
     batchid text,
@@ -335,7 +335,7 @@ CREATE TABLE sunbird_courses.user_content_consumption (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird_courses.user_courses (
+CREATE TABLE IF NOT EXISTS sunbird_courses.user_courses (
     batchid text,
     userid text,
     active boolean,

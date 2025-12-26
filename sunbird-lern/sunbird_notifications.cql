@@ -1,7 +1,7 @@
 
-CREATE KEYSPACE sunbird_notifications WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'}  AND durable_writes = true;
+CREATE KEYSPACE IF NOT EXISTS sunbird_notifications WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'}  AND durable_writes = true;
 
-CREATE TABLE sunbird_notifications.cassandra_migration_version (
+CREATE TABLE IF NOT EXISTS sunbird_notifications.cassandra_migration_version (
     version text PRIMARY KEY,
     checksum int,
     description text,
@@ -29,7 +29,7 @@ CREATE TABLE sunbird_notifications.cassandra_migration_version (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird_notifications.notification_feed (
+CREATE TABLE IF NOT EXISTS sunbird_notifications.notification_feed (
     userid text,
     id text,
     action text,
@@ -60,7 +60,7 @@ CREATE TABLE sunbird_notifications.notification_feed (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird_notifications.action_template (
+CREATE TABLE IF NOT EXISTS sunbird_notifications.action_template (
     action text PRIMARY KEY,
     templateid text,
     type text
@@ -80,7 +80,7 @@ CREATE TABLE sunbird_notifications.action_template (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird_notifications.cassandra_migration_version_counts (
+CREATE TABLE IF NOT EXISTS sunbird_notifications.cassandra_migration_version_counts (
     name text PRIMARY KEY,
     count counter
 ) WITH bloom_filter_fp_chance = 0.01
@@ -99,7 +99,7 @@ CREATE TABLE sunbird_notifications.cassandra_migration_version_counts (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird_notifications.notification_template (
+CREATE TABLE IF NOT EXISTS sunbird_notifications.notification_template (
     templateid text PRIMARY KEY,
     config map<text, text>,
     createdby text,
@@ -126,7 +126,7 @@ CREATE TABLE sunbird_notifications.notification_template (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird_notifications.feed_version_map (
+CREATE TABLE IF NOT EXISTS sunbird_notifications.feed_version_map (
     id text PRIMARY KEY,
     feedid text,
     status text

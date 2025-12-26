@@ -1,7 +1,7 @@
 
-CREATE KEYSPACE sunbird_groups WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'}  AND durable_writes = true;
+CREATE KEYSPACE IF NOT EXISTS sunbird_groups WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'}  AND durable_writes = true;
 
-CREATE TABLE sunbird_groups.cassandra_migration_version (
+CREATE TABLE IF NOT EXISTS sunbird_groups.cassandra_migration_version (
     version text PRIMARY KEY,
     checksum int,
     description text,
@@ -29,7 +29,7 @@ CREATE TABLE sunbird_groups.cassandra_migration_version (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird_groups.cassandra_migration_version_counts (
+CREATE TABLE IF NOT EXISTS sunbird_groups.cassandra_migration_version_counts (
     name text PRIMARY KEY,
     count counter
 ) WITH bloom_filter_fp_chance = 0.01
@@ -48,7 +48,7 @@ CREATE TABLE sunbird_groups.cassandra_migration_version_counts (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird_groups.group (
+CREATE TABLE IF NOT EXISTS sunbird_groups.group (
     id text PRIMARY KEY,
     activities list<frozen<map<text, text>>>,
     createdby text,
@@ -76,7 +76,7 @@ CREATE TABLE sunbird_groups.group (
     AND transactions = {'enabled': 'true'};
 CREATE INDEX idx_group_status ON sunbird_groups.group (status);
 
-CREATE TABLE sunbird_groups.group_member (
+CREATE TABLE IF NOT EXISTS sunbird_groups.group_member (
     groupid text,
     userid text,
     createdby text,
@@ -107,7 +107,7 @@ CREATE TABLE sunbird_groups.group_member (
     AND transactions = {'enabled': 'true'};
 CREATE INDEX idx_group_member_status ON sunbird_groups.group_member (status);
 
-CREATE TABLE sunbird_groups.user_group (
+CREATE TABLE IF NOT EXISTS sunbird_groups.user_group (
     userid text PRIMARY KEY,
     groupid set<text>
 ) WITH bloom_filter_fp_chance = 0.01

@@ -1,7 +1,7 @@
 
-CREATE KEYSPACE qmzbm_form_service WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'}  AND durable_writes = true;
+CREATE KEYSPACE IF NOT EXISTS qmzbm_form_service WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'}  AND durable_writes = true;
 
-CREATE TABLE qmzbm_form_service.form_data (
+CREATE TABLE IF NOT EXISTS qmzbm_form_service.form_data (
     root_org text,
     framework text,
     type text,
@@ -28,7 +28,7 @@ CREATE TABLE qmzbm_form_service.form_data (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE qmzbm_form_service.cassandra_migration_version (
+CREATE TABLE IF NOT EXISTS qmzbm_form_service.cassandra_migration_version (
     version text PRIMARY KEY,
     checksum int,
     description text,
@@ -56,7 +56,7 @@ CREATE TABLE qmzbm_form_service.cassandra_migration_version (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE qmzbm_form_service.cassandra_migration_version_counts (
+CREATE TABLE IF NOT EXISTS qmzbm_form_service.cassandra_migration_version_counts (
     name text PRIMARY KEY,
     count counter
 ) WITH bloom_filter_fp_chance = 0.01

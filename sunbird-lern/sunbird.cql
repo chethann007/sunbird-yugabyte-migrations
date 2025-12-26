@@ -1,7 +1,7 @@
 
-CREATE KEYSPACE sunbird WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'}  AND durable_writes = true;
+CREATE KEYSPACE IF NOT EXISTS sunbird WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'}  AND durable_writes = true;
 
-CREATE TABLE sunbird.assessment_eval (
+CREATE TABLE IF NOT EXISTS sunbird.assessment_eval (
     id text PRIMARY KEY,
     attemptedcount int,
     attemptid text,
@@ -30,7 +30,7 @@ CREATE INDEX inx_ae_courseid ON sunbird.assessment_eval (courseid);
 CREATE INDEX inx_ae_userid ON sunbird.assessment_eval (userid);
 CREATE INDEX inx_ae_contentid ON sunbird.assessment_eval (contentid);
 
-CREATE TABLE sunbird.bulk_upload_process_task (
+CREATE TABLE IF NOT EXISTS sunbird.bulk_upload_process_task (
     processid text,
     sequenceid int,
     createdon timestamp,
@@ -58,7 +58,7 @@ CREATE TABLE sunbird.bulk_upload_process_task (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.user_roles (
+CREATE TABLE IF NOT EXISTS sunbird.user_roles (
     userid text,
     role text,
     createdby text,
@@ -84,7 +84,7 @@ CREATE TABLE sunbird.user_roles (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.course_management (
+CREATE TABLE IF NOT EXISTS sunbird.course_management (
     id text PRIMARY KEY,
     addedby text,
     addedbyname text,
@@ -138,7 +138,7 @@ CREATE INDEX inx_cm_contentid ON sunbird.course_management (contentid);
 CREATE INDEX inx_cm_organisationid ON sunbird.course_management (organisationid);
 CREATE INDEX inx_cm_facultyid ON sunbird.course_management (facultyid);
 
-CREATE TABLE sunbird.user_group (
+CREATE TABLE IF NOT EXISTS sunbird.user_group (
     userid text PRIMARY KEY,
     groupid set<text>
 ) WITH bloom_filter_fp_chance = 0.01
@@ -157,7 +157,7 @@ CREATE TABLE sunbird.user_group (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.url_action (
+CREATE TABLE IF NOT EXISTS sunbird.url_action (
     id text PRIMARY KEY,
     name text,
     url list<text>
@@ -179,7 +179,7 @@ CREATE TABLE sunbird.url_action (
 // CREATE INDEX inx_ua_url ON sunbird.url_action (values(url));
 CREATE INDEX inx_ua_name ON sunbird.url_action (name);
 
-CREATE TABLE sunbird.user_auth (
+CREATE TABLE IF NOT EXISTS sunbird.user_auth (
     id text PRIMARY KEY,
     createddate text,
     source text,
@@ -203,7 +203,7 @@ CREATE TABLE sunbird.user_auth (
 CREATE INDEX inx_ua_userid ON sunbird.user_auth (userid);
 CREATE INDEX inx_ua_source ON sunbird.user_auth (source);
 
-CREATE TABLE sunbird.user_organisation (
+CREATE TABLE IF NOT EXISTS sunbird.user_organisation (
     userid text,
     organisationid text,
     addedby text,
@@ -240,7 +240,7 @@ CREATE TABLE sunbird.user_organisation (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.user_consent (
+CREATE TABLE IF NOT EXISTS sunbird.user_consent (
     user_id text,
     consumer_id text,
     object_id text,
@@ -271,7 +271,7 @@ CREATE TABLE sunbird.user_consent (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.system_settings (
+CREATE TABLE IF NOT EXISTS sunbird.system_settings (
     id text PRIMARY KEY,
     field text,
     value text
@@ -291,7 +291,7 @@ CREATE TABLE sunbird.system_settings (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.client_info (
+CREATE TABLE IF NOT EXISTS sunbird.client_info (
     id text PRIMARY KEY,
     channel text,
     clientname text,
@@ -316,7 +316,7 @@ CREATE TABLE sunbird.client_info (
 CREATE INDEX inx_ci_clientname ON sunbird.client_info (clientname);
 CREATE INDEX inx_ci_clientchannel ON sunbird.client_info (channel);
 
-CREATE TABLE sunbird.user (
+CREATE TABLE IF NOT EXISTS sunbird.user (
     id text PRIMARY KEY,
     alltncaccepted map<text, text>,
     channel text,
@@ -373,7 +373,7 @@ CREATE TABLE sunbird.user (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.group_member (
+CREATE TABLE IF NOT EXISTS sunbird.group_member (
     groupid text,
     userid text,
     createdby text,
@@ -403,7 +403,7 @@ CREATE TABLE sunbird.group_member (
     AND transactions = {'enabled': 'true'};
 CREATE INDEX idx_group_member_status ON sunbird.group_member (status);
 
-CREATE TABLE sunbird.subject (
+CREATE TABLE IF NOT EXISTS sunbird.subject (
     id text PRIMARY KEY,
     name text
 ) WITH bloom_filter_fp_chance = 0.01
@@ -423,7 +423,7 @@ CREATE TABLE sunbird.subject (
     AND transactions = {'enabled': 'true'};
 CREATE INDEX inx_sb_name ON sunbird.subject (name);
 
-CREATE TABLE sunbird.content_consumption (
+CREATE TABLE IF NOT EXISTS sunbird.content_consumption (
     id text PRIMARY KEY,
     batchid text,
     completedcount int,
@@ -461,7 +461,7 @@ CREATE INDEX inx_cc_courseid ON sunbird.content_consumption (courseid);
 CREATE INDEX inx_cc_status ON sunbird.content_consumption (status);
 CREATE INDEX inx_cc_userid ON sunbird.content_consumption (userid);
 
-CREATE TABLE sunbird.group (
+CREATE TABLE IF NOT EXISTS sunbird.group (
     id text PRIMARY KEY,
     activities list<frozen<map<text, text>>>,
     createdby text,
@@ -489,7 +489,7 @@ CREATE TABLE sunbird.group (
     AND transactions = {'enabled': 'true'};
 CREATE INDEX idx_group_status ON sunbird.group (status);
 
-CREATE TABLE sunbird.user_lookup (
+CREATE TABLE IF NOT EXISTS sunbird.user_lookup (
     type text,
     value text,
     userid text,
@@ -510,7 +510,7 @@ CREATE TABLE sunbird.user_lookup (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.role_group (
+CREATE TABLE IF NOT EXISTS sunbird.role_group (
     id text PRIMARY KEY,
     name text,
     url_action_ids list<text>
@@ -530,7 +530,7 @@ CREATE TABLE sunbird.role_group (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.organisation (
+CREATE TABLE IF NOT EXISTS sunbird.organisation (
     id text PRIMARY KEY,
     channel text,
     contactdetail text,
@@ -573,7 +573,7 @@ CREATE TABLE sunbird.organisation (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.assessment_item (
+CREATE TABLE IF NOT EXISTS sunbird.assessment_item (
     id text PRIMARY KEY,
     answers text,
     assessmentitemid text,
@@ -610,7 +610,7 @@ CREATE INDEX inx_ai_userid ON sunbird.assessment_item (userid);
 CREATE INDEX inx_ai_assessmentitemid ON sunbird.assessment_item (assessmentitemid);
 CREATE INDEX inx_ai_courseid ON sunbird.assessment_item (courseid);
 
-CREATE TABLE sunbird.user_badge_assertion (
+CREATE TABLE IF NOT EXISTS sunbird.user_badge_assertion (
     id text PRIMARY KEY,
     assertionid text,
     badgeclassimage text,
@@ -635,7 +635,7 @@ CREATE TABLE sunbird.user_badge_assertion (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.user_skills (
+CREATE TABLE IF NOT EXISTS sunbird.user_skills (
     id text PRIMARY KEY,
     createdby text,
     createdon timestamp,
@@ -663,7 +663,7 @@ CREATE TABLE sunbird.user_skills (
     AND transactions = {'enabled': 'true'};
 CREATE INDEX inx_us_userid ON sunbird.user_skills (userid);
 
-CREATE TABLE sunbird.geo_location (
+CREATE TABLE IF NOT EXISTS sunbird.geo_location (
     id text PRIMARY KEY,
     createdby text,
     createddate text,
@@ -692,7 +692,7 @@ CREATE TABLE sunbird.geo_location (
     AND transactions = {'enabled': 'true'};
 CREATE INDEX inx_gl_rootorgid ON sunbird.geo_location (rootorgid);
 
-CREATE TABLE sunbird.role (
+CREATE TABLE IF NOT EXISTS sunbird.role (
     id text PRIMARY KEY,
     name text,
     rolegroupid list<text>,
@@ -713,7 +713,7 @@ CREATE TABLE sunbird.role (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.location (
+CREATE TABLE IF NOT EXISTS sunbird.location (
     id text PRIMARY KEY,
     code text,
     name text,
@@ -735,7 +735,7 @@ CREATE TABLE sunbird.location (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.user_org (
+CREATE TABLE IF NOT EXISTS sunbird.user_org (
     id text PRIMARY KEY,
     addedby text,
     addedbyname text,
@@ -771,7 +771,7 @@ CREATE TABLE sunbird.user_org (
 CREATE INDEX inx_uorg_userid ON sunbird.user_org (userid);
 CREATE INDEX inx_uorg_orgid ON sunbird.user_org (organisationid);
 
-CREATE TABLE sunbird.media_type (
+CREATE TABLE IF NOT EXISTS sunbird.media_type (
     id text PRIMARY KEY,
     name text
 ) WITH bloom_filter_fp_chance = 0.01
@@ -790,7 +790,7 @@ CREATE TABLE sunbird.media_type (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.badge (
+CREATE TABLE IF NOT EXISTS sunbird.badge (
     id text PRIMARY KEY,
     description text,
     isactive boolean,
@@ -811,7 +811,7 @@ CREATE TABLE sunbird.badge (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.master_action (
+CREATE TABLE IF NOT EXISTS sunbird.master_action (
     id text PRIMARY KEY,
     name text
 ) WITH bloom_filter_fp_chance = 0.01
@@ -831,7 +831,7 @@ CREATE TABLE sunbird.master_action (
     AND transactions = {'enabled': 'true'};
 CREATE INDEX inx_ma_name ON sunbird.master_action (name);
 
-CREATE TABLE sunbird.badge_class_extension (
+CREATE TABLE IF NOT EXISTS sunbird.badge_class_extension (
     id text PRIMARY KEY,
     issuerid text,
     roles list<text>,
@@ -854,7 +854,7 @@ CREATE TABLE sunbird.badge_class_extension (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.cassandra_migration_version (
+CREATE TABLE IF NOT EXISTS sunbird.cassandra_migration_version (
     version text PRIMARY KEY,
     checksum int,
     description text,
@@ -882,7 +882,7 @@ CREATE TABLE sunbird.cassandra_migration_version (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.page_management (
+CREATE TABLE IF NOT EXISTS sunbird.page_management (
     id text PRIMARY KEY,
     appmap text,
     created_date timestamp,
@@ -910,7 +910,7 @@ CREATE TABLE sunbird.page_management (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.course_enrollment (
+CREATE TABLE IF NOT EXISTS sunbird.course_enrollment (
     id text PRIMARY KEY,
     active boolean,
     addedby text,
@@ -949,7 +949,7 @@ CREATE INDEX inx_ce_course_name ON sunbird.course_enrollment (coursename);
 CREATE INDEX inx_ce_status ON sunbird.course_enrollment (status);
 CREATE INDEX inx_ce_courseid ON sunbird.course_enrollment (courseid);
 
-CREATE TABLE sunbird.org_external_identity (
+CREATE TABLE IF NOT EXISTS sunbird.org_external_identity (
     provider text,
     externalid text,
     orgid text,
@@ -971,7 +971,7 @@ CREATE TABLE sunbird.org_external_identity (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.email_template (
+CREATE TABLE IF NOT EXISTS sunbird.email_template (
     name text PRIMARY KEY,
     createdby text,
     createdon timestamp,
@@ -994,7 +994,7 @@ CREATE TABLE sunbird.email_template (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.usr_external_identity (
+CREATE TABLE IF NOT EXISTS sunbird.usr_external_identity (
     provider text,
     idtype text,
     externalid text,
@@ -1051,7 +1051,7 @@ CREATE TABLE sunbird.tenant_preference_v2 (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.cert_registry (
+CREATE TABLE IF NOT EXISTS sunbird.cert_registry (
     id text PRIMARY KEY,
     accesscode text,
     createdat timestamp,
@@ -1081,7 +1081,7 @@ CREATE TABLE sunbird.cert_registry (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.user_job_profile (
+CREATE TABLE IF NOT EXISTS sunbird.user_job_profile (
     id text PRIMARY KEY,
     addressid text,
     boardname text,
@@ -1120,7 +1120,7 @@ CREATE TABLE sunbird.user_job_profile (
     AND transactions = {'enabled': 'true'};
 CREATE INDEX inx_ujp_userid ON sunbird.user_job_profile (userid);
 
-CREATE TABLE sunbird.user_declarations (
+CREATE TABLE IF NOT EXISTS sunbird.user_declarations (
     userid text,
     orgid text,
     persona text,
@@ -1149,7 +1149,7 @@ CREATE TABLE sunbird.user_declarations (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.bulk_upload_process (
+CREATE TABLE IF NOT EXISTS sunbird.bulk_upload_process (
     id text PRIMARY KEY,
     createdby text,
     createdon timestamp,
@@ -1185,7 +1185,7 @@ CREATE TABLE sunbird.bulk_upload_process (
     AND transactions = {'enabled': 'true'};
 CREATE INDEX inx_status ON sunbird.bulk_upload_process (status);
 
-CREATE TABLE sunbird.address (
+CREATE TABLE IF NOT EXISTS sunbird.address (
     id text PRIMARY KEY,
     addressline1 text,
     addressline2 text,
@@ -1216,7 +1216,7 @@ CREATE TABLE sunbird.address (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.otp (
+CREATE TABLE IF NOT EXISTS sunbird.otp (
     type text,
     key text,
     attemptedcount int,
@@ -1240,7 +1240,7 @@ CREATE TABLE sunbird.otp (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.report_tracking (
+CREATE TABLE IF NOT EXISTS sunbird.report_tracking (
     id text PRIMARY KEY,
     createddate text,
     data text,
@@ -1275,7 +1275,7 @@ CREATE TABLE sunbird.report_tracking (
 CREATE INDEX inx_report_tracking_userid ON sunbird.report_tracking (userid);
 CREATE INDEX inx_report_tracking_status ON sunbird.report_tracking (status);
 
-CREATE TABLE sunbird.user_external_identity (
+CREATE TABLE IF NOT EXISTS sunbird.user_external_identity (
     id text PRIMARY KEY,
     createdby text,
     createdon timestamp,
@@ -1303,7 +1303,7 @@ CREATE INDEX inx_uei_userid ON sunbird.user_external_identity (userid);
 CREATE INDEX inx_uei_externalid ON sunbird.user_external_identity (externalid);
 CREATE INDEX inx_uei_provider ON sunbird.user_external_identity (provider);
 
-CREATE TABLE sunbird.user_courses (
+CREATE TABLE IF NOT EXISTS sunbird.user_courses (
     id text PRIMARY KEY,
     active boolean,
     addedby text,
@@ -1347,7 +1347,7 @@ CREATE INDEX inx_ucs_status ON sunbird.user_courses (status);
 CREATE INDEX inx_ucs_course_name ON sunbird.user_courses (coursename);
 CREATE INDEX inx_ucs_userid ON sunbird.user_courses (userid);
 
-CREATE TABLE sunbird.tenant_preference (
+CREATE TABLE IF NOT EXISTS sunbird.tenant_preference (
     id text PRIMARY KEY,
     data text,
     key text,
@@ -1372,7 +1372,7 @@ CREATE TABLE sunbird.tenant_preference (
 CREATE INDEX inx_tp_key ON sunbird.tenant_preference (key);
 CREATE INDEX inx_tp_userid ON sunbird.tenant_preference (orgid);
 
-CREATE TABLE sunbird.shadow_user (
+CREATE TABLE IF NOT EXISTS sunbird.shadow_user (
     channel text,
     userextid text,
     addedby text,
@@ -1414,7 +1414,7 @@ CREATE INDEX inx_shausr_userid ON sunbird.shadow_user (userid);
 CREATE INDEX inx_shausr_processid ON sunbird.shadow_user (processid);
 CREATE INDEX inx_shausr_orgextid ON sunbird.shadow_user (orgextid);
 
-CREATE TABLE sunbird.user_action_role (
+CREATE TABLE IF NOT EXISTS sunbird.user_action_role (
     id text PRIMARY KEY,
     actiongroupid list<text>,
     roleid text
@@ -1434,7 +1434,7 @@ CREATE TABLE sunbird.user_action_role (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.user_cert (
+CREATE TABLE IF NOT EXISTS sunbird.user_cert (
     id text PRIMARY KEY,
     accesscode text,
     createdat timestamp,
@@ -1460,7 +1460,7 @@ CREATE TABLE sunbird.user_cert (
     AND transactions = {'enabled': 'true'};
 CREATE INDEX inx_usrcert_user_id ON sunbird.user_cert (userid);
 
-CREATE TABLE sunbird.cassandra_migration_version_counts (
+CREATE TABLE IF NOT EXISTS sunbird.cassandra_migration_version_counts (
     name text PRIMARY KEY,
     count counter
 ) WITH bloom_filter_fp_chance = 0.01
@@ -1479,7 +1479,7 @@ CREATE TABLE sunbird.cassandra_migration_version_counts (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.skills (
+CREATE TABLE IF NOT EXISTS sunbird.skills (
     id text PRIMARY KEY,
     skills list<text>
 ) WITH bloom_filter_fp_chance = 0.01
@@ -1498,7 +1498,7 @@ CREATE TABLE sunbird.skills (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.user_feed (
+CREATE TABLE IF NOT EXISTS sunbird.user_feed (
     id text PRIMARY KEY,
     category text,
     createdby text,
@@ -1528,7 +1528,7 @@ CREATE TABLE sunbird.user_feed (
 CREATE INDEX user_feed_category_idx ON sunbird.user_feed (category);
 CREATE INDEX user_feed_userid_idx ON sunbird.user_feed (userid);
 
-CREATE TABLE sunbird.rate_limit (
+CREATE TABLE IF NOT EXISTS sunbird.rate_limit (
     key text,
     unit text,
     count int,
@@ -1551,7 +1551,7 @@ CREATE TABLE sunbird.rate_limit (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.course_publish_status (
+CREATE TABLE IF NOT EXISTS sunbird.course_publish_status (
     id text PRIMARY KEY,
     status int,
     submitdate text
@@ -1572,7 +1572,7 @@ CREATE TABLE sunbird.course_publish_status (
     AND transactions = {'enabled': 'true'};
 CREATE INDEX inx_cps_status ON sunbird.course_publish_status (status);
 
-CREATE TABLE sunbird.action_group (
+CREATE TABLE IF NOT EXISTS sunbird.action_group (
     id text PRIMARY KEY,
     actionid list<text>,
     groupname text
@@ -1592,7 +1592,7 @@ CREATE TABLE sunbird.action_group (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.course_batch (
+CREATE TABLE IF NOT EXISTS sunbird.course_batch (
     id text PRIMARY KEY,
     countdecrementdate text,
     countdecrementstatus boolean,
@@ -1635,7 +1635,7 @@ CREATE INDEX inx_cou_bat_status ON sunbird.course_batch (status);
 CREATE INDEX inx_cou_bat_createdby ON sunbird.course_batch (createdby);
 CREATE INDEX inx_cou_bat_enrolmenttype ON sunbird.course_batch (enrollmenttype);
 
-CREATE TABLE sunbird.user_notes (
+CREATE TABLE IF NOT EXISTS sunbird.user_notes (
     id text PRIMARY KEY,
     contentid text,
     courseid text,
@@ -1664,7 +1664,7 @@ CREATE TABLE sunbird.user_notes (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.user_education (
+CREATE TABLE IF NOT EXISTS sunbird.user_education (
     id text PRIMARY KEY,
     addressid text,
     boardoruniversity text,
@@ -1698,7 +1698,7 @@ CREATE TABLE sunbird.user_education (
     AND transactions = {'enabled': 'true'};
 CREATE INDEX inx_ueu_userid ON sunbird.user_education (userid);
 
-CREATE TABLE sunbird.content_badge_association (
+CREATE TABLE IF NOT EXISTS sunbird.content_badge_association (
     id text PRIMARY KEY,
     badgeclassimage text,
     badgeclassname text,
@@ -1726,7 +1726,7 @@ CREATE TABLE sunbird.content_badge_association (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird.user_badge (
+CREATE TABLE IF NOT EXISTS sunbird.user_badge (
     id text PRIMARY KEY,
     badgetypeid text,
     createdby text,
@@ -1769,7 +1769,7 @@ CREATE TABLE sunbird.user_badge (
 CREATE INDEX inx_usr_badg_receiverid ON sunbird.user_badge (receiverid);
 CREATE INDEX inx_usr_badg ON sunbird.user_badge (badgetypeid);
 
-CREATE TABLE sunbird.config_path_audit (
+CREATE TABLE IF NOT EXISTS sunbird.config_path_audit (
     id text,
     cloud_store_type text,
     created_date bigint,
@@ -1796,7 +1796,7 @@ CREATE TABLE sunbird.config_path_audit (
     AND transactions = {'enabled': 'true'};
 CREATE INDEX inx_created_date ON sunbird.config_path_audit (created_date);
 
-CREATE TABLE sunbird.page_section (
+CREATE TABLE IF NOT EXISTS sunbird.page_section (
     id text PRIMARY KEY,
     alt text,
     created_date timestamp,

@@ -1,7 +1,7 @@
 
-CREATE KEYSPACE sunbird_programs WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'}  AND durable_writes = true;
+CREATE KEYSPACE IF NOT EXISTS sunbird_programs WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'}  AND durable_writes = true;
 
-CREATE TABLE sunbird_programs.cassandra_migration_version (
+CREATE TABLE IF NOT EXISTS sunbird_programs.cassandra_migration_version (
     version text PRIMARY KEY,
     checksum int,
     description text,
@@ -29,7 +29,7 @@ CREATE TABLE sunbird_programs.cassandra_migration_version (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird_programs.cassandra_migration_version_counts (
+CREATE TABLE IF NOT EXISTS sunbird_programs.cassandra_migration_version_counts (
     name text PRIMARY KEY,
     count counter
 ) WITH bloom_filter_fp_chance = 0.01
@@ -48,7 +48,7 @@ CREATE TABLE sunbird_programs.cassandra_migration_version_counts (
     AND speculative_retry = '99PERCENTILE'
     AND transactions = {'enabled': 'true'};
 
-CREATE TABLE sunbird_programs.program_enrollment (
+CREATE TABLE IF NOT EXISTS sunbird_programs.program_enrollment (
     program_id text,
     user_id text,
     created_at date,
