@@ -25,7 +25,5 @@ CREATE TABLE IF NOT EXISTS lock_db.lock (
     AND memtable_flush_period_in_ms = 0
     AND min_index_interval = 128
     AND read_repair_chance = 0.0
-    AND speculative_retry = '99PERCENTILE'
-    AND transactions = {'enabled': 'true'};
+    AND speculative_retry = '99PERCENTILE';
     
-CREATE INDEX IF NOT EXISTS lock_lockid_idx ON lock_db.lock ("lockId");
